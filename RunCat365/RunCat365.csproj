@@ -45,6 +45,7 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Include="E:\Users\SANTIAGO MORA\Documents\Documentos\_Proyectos\Programacion\3_Proyectos externos\RunCat\RunCat365\RunCat365\.editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +73,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>UserSettings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="E:\Users\SANTIAGO MORA\Documents\Documentos\_Proyectos\Programacion\3_Proyectos externos\RunCat\RunCat365\RunCat365\.editorconfig" />
   </ItemGroup>
 
 </Project>
