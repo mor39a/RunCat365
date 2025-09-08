@@ -145,7 +145,6 @@ namespace RunCat365
             SetIcons(getSystemTheme(), getManualTheme(), getRunner());
 
             notifyIcon.Text = "-";
-            notifyIcon.Icon = icons[0];
             notifyIcon.Visible = true;
             notifyIcon.ContextMenuStrip = contextMenuStrip;
         }
@@ -184,6 +183,7 @@ namespace RunCat365
             var rm = Resources.ResourceManager;
             var capacity = runner.GetFrameNumber();
             var list = new List<Icon>(capacity);
+
             for (int i = 0; i < capacity; i++)
             {
                 var iconName = $"{prefix}_{runnerName}_{i}".ToLower();
@@ -191,10 +191,11 @@ namespace RunCat365
                 if (icon is null) continue;
                 list.Add((Icon)icon);
             }
+            if (list.Count == 0) return;
 
             lock (iconLock)
             {
-                icons.ForEach(icon => icon.Dispose());
+                icons.ForEach(icon => icon?.Dispose());
                 icons.Clear();
                 icons.AddRange(list);
                 current = 0;
@@ -250,7 +251,11 @@ namespace RunCat365
             {
                 if (icons.Count == 0) return;
                 if (icons.Count <= current) current = 0;
-                notifyIcon.Icon = icons[current];
+                var icon = icons[current];
+                if (icon is not null && !icon.IsDisposed)
+                {
+                    notifyIcon.Icon = icon;
+                }
                 current = (current + 1) % icons.Count;
             }
         }
@@ -265,11 +270,6 @@ namespace RunCat365
             notifyIcon.Text = text;
         }
 
-        internal void HideNotifyIcon()
-        {
-            notifyIcon.Visible = false;
-        }
-
         public void Dispose()
         {
             Dispose(true);
@@ -282,12 +282,13 @@ namespace RunCat365
             {
                 lock (iconLock)
                 {
-                    icons.ForEach(icon => icon.Dispose());
+                    icons.ForEach(icon => icon?.Dispose());
                     icons.Clear();
                 }
 
                 if (notifyIcon is not null)
                 {
+                    notifyIcon.Visible = false;
                     notifyIcon.ContextMenuStrip?.Dispose();
                     notifyIcon.Dispose();
                 }
