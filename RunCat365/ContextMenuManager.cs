@@ -195,7 +195,7 @@ namespace RunCat365
 
                 var icon = rm.GetObject(iconName);
                 if (icon is null) continue;
-                if (memoryLoad > 80 || true) icon = ChangeIconColor((Icon)icon, Color.FromArgb(185, 70, 9));
+                if (memoryLoad > 80) icon = ChangeIconColor((Icon)icon, Color.FromArgb(185, 70, 9));
                 list.Add((Icon)icon);
             }
 
